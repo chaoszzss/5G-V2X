@@ -1,0 +1,11 @@
+[Unit]
+Description=QRTR Nameserver
+Before=netmgrd.service
+
+[Service]
+Type=forking
+ExecStart=/usr/bin/qrtr-ns
+Restart=always
+
+[Install]
+WantedBy=sysinit.target

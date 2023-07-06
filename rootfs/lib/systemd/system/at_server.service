@@ -1,0 +1,10 @@
+[Unit]
+Description=at_server
+
+[Service]
+Type=simple
+ExecStart=/usr/bin/at-server
+Restart=always
+
+[Install]
+WantedBy=multi-user.target

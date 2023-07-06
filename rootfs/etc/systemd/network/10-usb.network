@@ -1,0 +1,6 @@
+[Match]
+Name=zte_v2x_usb0
+
+[Network]
+Address=192.168.100.2/24
+IPForward=ipv4
