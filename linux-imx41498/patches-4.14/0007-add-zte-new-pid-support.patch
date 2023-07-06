@@ -1,0 +1,52 @@
+diff --git a/drivers/qti/qrtr/usb.c b/drivers/qti/qrtr/usb.c
+index 7dfb31e..609c5b2 100755
+--- a/drivers/qti/qrtr/usb.c
++++ b/drivers/qti/qrtr/usb.c
+@@ -301,6 +301,7 @@ static void qcom_usb_qrtr_disconnect(struct usb_interface *interface)
+ static const struct usb_device_id qcom_usb_qrtr_ids[] = {
+ 	{ USB_DEVICE_INTERFACE_NUMBER(QRTR_VENDOR_ID, 0x90ef, 3) },
+ 	{ USB_DEVICE_INTERFACE_NUMBER(QRTR_VENDOR_ID, 0x90f0, 3) },
++        { USB_DEVICE_INTERFACE_NUMBER(0x19d2, 0x1498, 3) }, /*add zte pid support*/
+ 	{ } /* Terminating entry */
+ };
+ MODULE_DEVICE_TABLE(usb, qcom_usb_qrtr_ids);
+diff --git a/drivers/qti/rmnet_usb/rmnet_usb.c b/drivers/qti/rmnet_usb/rmnet_usb.c
+index 5da995b..4264e57 100755
+--- a/drivers/qti/rmnet_usb/rmnet_usb.c
++++ b/drivers/qti/rmnet_usb/rmnet_usb.c
+@@ -424,6 +424,11 @@ static const struct usb_device_id rmnet_usb_ids[] = {
+roo
+ 		.driver_info = (unsigned long) &rmnet_usb_info,
+ 	},
++	/*add zte pid support*/
++	{
++		USB_DEVICE_INTERFACE_NUMBER(0x19d2, 0x1498, 2),
++		.driver_info = (unsigned long) &rmnet_usb_info,
++	},
+ 	{ } /* Terminating entry */
+ };
+ MODULE_DEVICE_TABLE(usb, rmnet_usb_ids);
+diff --git a/drivers/usb/serial/option.c b/drivers/usb/serial/option.c
+index 8cdca3f..2962dd1 100644
+--- a/drivers/usb/serial/option.c
++++ b/drivers/usb/serial/option.c
+@@ -1961,6 +1961,19 @@ static const struct usb_device_id option_ids[] = {
+ 	  .driver_info = RSVD(4) | RSVD(5) },
+ 	{ USB_DEVICE_INTERFACE_CLASS(0x2cb7, 0x0105, 0xff),			/* Fibocom NL678 series */
+ 	  .driver_info = RSVD(6) },
++	/* add below pid support by zte  */
++	{ USB_DEVICE_AND_INTERFACE_INFO(ZTE_VENDOR_ID, 0x1432, 0xff, 0xff, 0xff),   //diag+at+mdm+ndis+adb
++		.driver_info = RSVD(3) 	}, 
++	{ USB_DEVICE_AND_INTERFACE_INFO(ZTE_VENDOR_ID, 0x1494, 0xff, 0xff, 0xff) }, //ZTE diag+at+mdm+adb
++	{ USB_DEVICE_AND_INTERFACE_INFO(ZTE_VENDOR_ID, 0x1495, 0xff, 0xff, 0xff),   // rndis+diag+at+mdm+ndis+adb
++		.driver_info = RSVD(5) 	}, //ZTE ZM8350
++	{ USB_DEVICE(ZTE_VENDOR_ID, 0x1496) }, //ZTE ZM8350  //diag
++	{ USB_DEVICE_AND_INTERFACE_INFO(ZTE_VENDOR_ID, 0x1497, 0xff, 0xff, 0xff) }, //diag+at+mdm
++	{ USB_DEVICE_AND_INTERFACE_INFO(ZTE_VENDOR_ID, 0x1498, 0xff, 0xff, 0xff),   // rndis+diag+at+mdm+ndis+adb
++		.driver_info = RSVD(2) 	}, //RNDIS+RMNET+IPC_PTR+DIAG+MODEM+NMEA+ADB
++	{ USB_DEVICE_AND_INTERFACE_INFO(QUALCOMM_VENDOR_ID, 0x90f0, 0xff, 0xff, 0xff),   // rndis+diag+at+mdm+ndis+adb
++		.driver_info = RSVD(2) 	}, //RNDIS+RMNET+IPC_PTR+DIAG+MODEM+NMEA+ADB
++	{ USB_DEVICE(QUALCOMM_VENDOR_ID, 0x9008)}, /* QTI EDL */
+ 	{ } /* Terminating entry */
+ };
+ MODULE_DEVICE_TABLE(usb, option_ids);

@@ -1,0 +1,601 @@
+/*****************************************************************************
+  @FILE     zte_qmi_api_v01.idl
+
+  @BRIEF    ZTE QMI API for QMI IDL
+
+  @DESCRIPTION
+*****************************************************************************/
+
+//include "common_v01.idl";
+
+revision 3;
+
+//! Maximum size for a data TLV
+const ZTE_QMI_MAX_DATA_SIZE = 2048;
+
+/*Added by qianying*/
+
+struct{
+    uint16 result;  //0=Success,  1= Failure
+    uint16 error;  //customer defined error values
+}zte_qmi_response_type;
+
+
+//==============================================================================
+/** @COMMAND QMI_Read_Inner_Version_Number
+    @BRIEF This message reads inner version number from server to client side
+	@CMD_VERSION 1.1 by suhao
+*/
+const version_number_len= 31;
+message {
+         
+} zte_read_inner_version_number_req_msg;
+
+message {
+	mandatory char inner_version_number[version_number_len]; 
+	
+} zte_read_inner_version_number_resp_msg;
+
+message {
+
+	
+} zte_read_inner_version_number_ind_msg;
+
+
+
+//==============================================================================
+
+
+
+//============================================================================
+/** @COMMAND QMI_FOTA
+    @BRIEF This message tests basic message passing between 
+	client and service
+	@CMD_VERSION 1.1
+*/
+
+message {
+        mandatory uint32 mode;
+        mandatory uint32 size;
+        mandatory uint8 buff[1500];
+} fota_req_msg;
+
+message {
+	mandatory uint8 data[250];
+	mandatory zte_qmi_response_type resp;           //!< Standard response type. by qianying 
+} fota_resp_msg;
+
+message {
+	mandatory uint32 result; 
+} fota_ind_msg;
+
+
+//============================================================================
+/** @COMMAND QMI_MAC
+    @BRIEF This message tests basic message passing between 
+	client and service
+	@CMD_VERSION 1.1
+*/
+
+message {
+        mandatory uint32 req; 
+} mac_req_msg;
+
+message {
+	mandatory char mac[6]; 
+	mandatory uint32 nv_status; 
+	mandatory zte_qmi_response_type resp;           //!< Standard response type. by qianying 
+} mac_resp_msg;
+
+message {
+	mandatory char mac[6]; 
+	mandatory uint32 nv_status; 
+} mac_ind_msg;
+
+
+//============================================================================
+/** @COMMAND QMI_IMEI
+    @BRIEF This message tests basic message passing between 
+	client and service
+	@CMD_VERSION 1.1
+*/
+
+message {
+        mandatory uint32 req; 
+} imei_req_msg;
+
+message {
+	mandatory char imei[9]; 
+	mandatory uint32 nv_status; 
+	mandatory zte_qmi_response_type resp;           //!< Standard response type. by qianying 
+} imei_resp_msg;
+
+message {
+	mandatory char imei[9]; 
+	mandatory uint32 nv_status; 
+} imei_ind_msg;
+
+message {
+   mandatory int32 msg_id; 
+} zte_qmi_turn_off_ind_req_mag;
+
+message {
+     mandatory zte_qmi_response_type resp; 
+} zte_qmi_turn_off_ind_resp_mag;
+
+message {
+   mandatory int32 msg_id; 
+} zte_qmi_turn_on_ind_req_mag;
+
+message {
+     mandatory zte_qmi_response_type resp; 
+} zte_qmi_turn_on_ind_resp_mag;
+
+//============================================================================
+/** @COMMAND QMI_RRC_STATE
+    @BRIEF This message get RRC state added by zhangfeifei 20121010
+	@CMD_VERSION 1.1
+*/
+message {
+	mandatory uint32 req; 
+} zte_rrc_state_req_msg;
+
+message {
+	mandatory uint8 rrc_state; 
+	mandatory zte_qmi_response_type resp;           //!< Standard response type. by qianying 
+} zte_rrc_state_resp_msg;
+
+message {
+	mandatory uint8 rrc_state; 
+} zte_rrc_state_ind_msg;
+
+//=========================Zhao-Xingguang=================================
+/** @COMMAND QMI_EFS
+    @BRIEF This message tests basic message passing between 
+	client and service
+	@CMD_VERSION 1.1
+*/
+
+message {
+        mandatory uint32 mode;
+        mandatory uint32 size;
+        mandatory uint8 buff[1024];
+} efs_req_msg;
+
+message {
+	mandatory uint8 data[128];
+	mandatory zte_qmi_response_type resp;           //!< Standard response type. by qianying 
+} efs_resp_msg;
+
+message {
+	mandatory uint32 result; 
+} efs_ind_msg;
+
+//============================================================================
+/** @COMMAND QMI_PSY_STATE
+    @BRIEF This message get PSY LINK state added by lvliang 20121225
+	@CMD_VERSION 1.1
+*/
+message {
+	mandatory uint32 req; 
+} zte_psy_state_req_msg;
+
+message {
+	mandatory uint8 psy_state; 
+	mandatory zte_qmi_response_type resp;  
+} zte_psy_state_resp_msg;
+
+message {
+	mandatory uint8 psy_state; 
+} zte_psy_state_ind_msg;
+
+//============================================================================
+/** @COMMAND QMI_POWER_OFF
+    @BRIEF This message tests basic message passing between 
+	client and service
+	@CMD_VERSION 1.1
+*/
+
+message {
+        mandatory uint32 req; 
+} power_off_req_msg;
+
+message {
+	mandatory uint32 po_status; 
+	mandatory zte_qmi_response_type resp;           //!< Standard response type. by qianying 
+} power_off_resp_msg;
+
+message {
+	mandatory uint32 po_status; 
+} power_off_ind_msg;
+
+//============================================================================
+/** @COMMAND QMI_Q6_DATA      
+       @BRIEF This message get Q6 side source data statistics added by wuping 20130805	
+       @CMD_VERSION 1.1
+*/
+message{
+	mandatory uint32 req;
+}zte_Q6_data_req_msg;
+
+message {	
+	mandatory uint64 Q6_rx_bytes; 	
+	mandatory uint64 Q6_tx_bytes; 	
+	mandatory zte_qmi_response_type resp;           
+} zte_Q6_data_resp_msg;
+
+message {	
+	mandatory uint64 Q6_rx_bytes; 	
+	mandatory uint64 Q6_tx_bytes; 
+} zte_Q6_data_ind_msg;
+
+//============================================================================
+/** @COMMAND QMI_WAN_COMMON      
+       @BRIEF This message for ZTE wan mondule common QMI added by wuping 20140321	
+       @CMD_VERSION 1.1
+*/
+message{
+        mandatory uint32 qmi_id;
+        mandatory uint32 length;
+        mandatory uint8   buffer[1024];
+}zte_wan_common_qmi_req_msg;
+
+message {	
+	mandatory uint32 qmi_id;
+       mandatory uint32 length;
+       mandatory uint8   buffer[1024];	
+	mandatory zte_qmi_response_type resp;           
+} zte_wan_common_qmi_resp_msg;
+
+message {	
+	mandatory uint32 qmi_id;
+       mandatory uint32 length;
+       mandatory uint8   buffer[1024];
+} zte_wan_common_qmi_ind_msg;
+
+//============================================================================
+/** @COMMAND QMI2_WAN_COMMON      
+       @BRIEF This message for ZTE wan mondule common QMI2 added by wuping 20140321	
+       @CMD_VERSION 1.1
+*/
+message{
+        mandatory uint32 qmi_id;
+        mandatory uint32 length;
+        mandatory uint8   buffer[1024];
+}zte_wan_common_qmi2_req_msg;
+
+message {	
+	mandatory uint32 qmi_id;
+       mandatory uint32 length;
+       mandatory uint8   buffer[1024];	
+	mandatory zte_qmi_response_type resp;           
+} zte_wan_common_qmi2_resp_msg;
+
+message {	
+	mandatory uint32 qmi_id;
+       mandatory uint32 length;
+       mandatory uint8   buffer[1024];
+} zte_wan_common_qmi2_ind_msg;
+
+//============================================================================
+/** @COMMAND QMI_PPP_COMMON      
+       @BRIEF This message for ZTE ppp mondule common QMI added by hebin 20140410	
+       @CMD_VERSION 1.1
+*/
+message{
+        mandatory uint32 qmi_id;
+        mandatory uint32 length;
+        mandatory uint8   buffer[1024];
+}zte_ppp_common_qmi_req_msg;
+
+message {	
+	mandatory uint32 qmi_id;
+       mandatory uint32 length;
+       mandatory uint8   buffer[1024];	
+	mandatory zte_qmi_response_type resp;           
+} zte_ppp_common_qmi_resp_msg;
+
+message {	
+	mandatory uint32 qmi_id;
+       mandatory uint32 length;
+       mandatory uint8   buffer[1024];
+} zte_ppp_common_qmi_ind_msg;
+
+//============================================================================
+/** @COMMAND QMI_DIAG_COMMON      
+       @BRIEF This message for ZTE diag mondule common QMI added by suhao 20140321	
+       @CMD_VERSION 1.1
+*/
+message{
+        mandatory uint32 qmi_id;
+        mandatory uint32 length;
+        mandatory uint8   buffer[1024];
+}zte_diag_common_qmi_req_msg;
+
+message {	
+	mandatory uint32 qmi_id;
+       mandatory uint32 length;
+       mandatory uint8   buffer[1024];	
+	mandatory zte_qmi_response_type resp;           
+} zte_diag_common_qmi_resp_msg;
+
+message {	
+	mandatory uint32 qmi_id;
+       mandatory uint32 length;
+       mandatory uint8   buffer[1024];
+} zte_diag_common_qmi_ind_msg;
+
+//============================================================================
+/** @COMMAND QMI_WLAN_COMMON. Added by menbo for zte_wlan_common_qmi 20140701
+       @BRIEF This message for ZTE wlan mondule common QMI.	
+       @CMD_VERSION 1.1
+*/
+message{
+        mandatory uint32	qmi_id;
+        mandatory uint32 	length;
+        mandatory uint8   	buffer[1024];
+}zte_wlan_common_qmi_req_msg;
+
+message {	
+		mandatory uint32 	qmi_id;
+       	mandatory uint32 	length;
+       	mandatory uint8   	buffer[1024];	
+		mandatory zte_qmi_response_type resp;           
+}zte_wlan_common_qmi_resp_msg;
+
+message {	
+		mandatory uint32 	qmi_id;
+       	mandatory uint32 	length;
+       	mandatory uint8   	buffer[1024];
+}zte_wlan_common_qmi_ind_msg;
+
+
+message {
+	mandatory uint32 req; 
+} zte_usb_file_ctl_req_msg;
+
+message {
+	mandatory uint8 status; 
+	mandatory zte_qmi_response_type resp;           //!< Standard response type. by qianying 
+} zte_usb_file_ctl_resp_msg;
+
+message {
+	mandatory uint8 status; 
+} zte_usb_file_ctl_ind_msg;
+
+
+
+
+//==============================================================================
+/** @COMMAND QMI_CFG_COMMON      
+       @BRIEF This message for A5-Q6 transfer config file
+       		      qmi_type: 0:A5->Q6 1:Q6->A5
+       	              data_len : transfer data size every time
+       		      data :	       transfer data content
+       		      data_index: number of tansfered data for compelete whole file
+       @CMD_VERSION 1.1
+*/
+enum 
+{
+	ZTE_QMI_UNDEF = -1,
+	ZTE_QMI_A52Q6 = 0,
+	ZTE_QMI_Q62A5
+}zte_cfg_qmi_enum_type;
+
+message {
+	mandatory zte_cfg_qmi_enum_type  qmi_type;
+    mandatory uint8	 file_name[256];
+	optional  uint32 total_size;
+	optional uint32 data_len;
+	optional uint8  data[512];
+	optional uint32 data_index;
+	optional uint32 finish_flag;
+}zte_cfg_qmi_req_msg;
+
+message {
+	mandatory zte_cfg_qmi_enum_type  qmi_type;
+    mandatory zte_qmi_response_type resp; 
+    optional uint32  		 total_size;
+    optional uint32		 data_len;
+    optional uint8 		 data[512];
+}zte_cfg_qmi_resp_msg;
+
+message {
+	mandatory uint32 	total_size;
+    optional uint8 	file_name[256];
+}zte_cfg_qmi_ind_msg;
+
+//============================================================================
+/** @COMMAND QMI_BLUETOOTH_MAC
+    @BRIEF This message tests basic message passing between 
+	client and service
+	@CMD_VERSION 1.1
+*/
+
+message {
+        mandatory uint32 req; 
+} zte_bluetooth_mac_req_msg;
+
+message {
+	mandatory char mac[6]; 
+	mandatory uint32 nv_status; 
+	mandatory zte_qmi_response_type resp;           //!< Standard response type. by qianying 
+} zte_bluetooth_mac_resp_msg;
+
+message {
+	mandatory char mac[6]; 
+	mandatory uint32 nv_status; 
+} zte_bluetooth_mac_ind_msg;
+
+//============================================================================
+/** @COMMAND QMI_INFO
+    @BRIEF This message tests basic message passing between 
+	client and service
+	@CMD_VERSION 1.1
+*/
+
+message {
+        mandatory uint32 mode;
+        mandatory uint32 size;
+        mandatory uint8 buff[1024];
+} zte_mdm_req_msg;
+
+message {
+	mandatory uint8 data[1024];
+	mandatory zte_qmi_response_type resp;           //!< Standard response type. by qianying 
+} zte_mdm_resp_msg;
+
+message {
+        mandatory uint32 mode;
+        mandatory uint32 size;
+        mandatory uint8 buff[1024];
+
+} zte_mdm_ind_msg;
+
+
+//============================================================================
+/** @COMMAND QMI_INFO
+    @BRIEF This message tests basic message passing between 
+	client and service
+	@CMD_VERSION 1.1
+*/
+
+message {
+        mandatory uint32 algo;
+        mandatory uint32 thres_data[3];
+        mandatory uint32 thres_clr_data[3];
+} zte_mdm_thermal_config_set_req_msg;
+
+message {
+		mandatory zte_qmi_response_type resp;           //!< Standard response type. by qianying 
+} zte_mdm_thermal_config_set_resp_msg;
+
+message {
+        mandatory uint32 algo;
+        mandatory uint32 thres_data[3];
+        mandatory uint32 thres_clr_data[3];
+
+} zte_mdm_thermal_config_set_ind_msg;
+
+message {
+        mandatory uint32 algo;
+} zte_mdm_thermal_config_get_req_msg;
+
+message {
+        mandatory uint32 algo;
+        mandatory uint32 thres_data[3];
+        mandatory uint32 thres_clr_data[3];
+		mandatory zte_qmi_response_type resp;           //!< Standard response type. by qianying 
+} zte_mdm_thermal_config_get_resp_msg;
+
+message {
+        mandatory uint32 algo;
+        mandatory uint32 thres_data[3];
+        mandatory uint32 thres_clr_data[3];
+
+} zte_mdm_thermal_config_get_ind_msg;
+
+service zte_qmi {
+	//! @ID QMI_FOTA
+	fota_req_msg                   FOTA_PING_REQ,
+	fota_resp_msg                  FOTA_PING_RESP,
+	fota_ind_msg                    FOTA_PING_IND;
+	//! @ID QMI_MAC
+	mac_req_msg                    MAC_PING_REQ,
+	mac_resp_msg                   MAC_PING_RESP,
+	mac_ind_msg                    MAC_PING_IND;
+	//! @ID QMI_IMEI
+	imei_req_msg                    IMEI_PING_REQ,
+	imei_resp_msg                   IMEI_PING_RESP,
+	imei_ind_msg                    IMEI_PING_IND;
+	
+	zte_qmi_turn_off_ind_req_mag      ZTE_QMI_TURN_OFF_IND_REQ,
+	zte_qmi_turn_off_ind_resp_mag     ZTE_QMI_TURN_OFF_IND_RESP;
+
+	zte_qmi_turn_on_ind_req_mag       ZTE_QMI_TURN_ON_IND_REQ,
+  	zte_qmi_turn_on_ind_resp_mag      ZTE_QMI_TURN_ON_IND_RESP;
+
+	//! @ID QMI_RRC_STATE
+	zte_rrc_state_req_msg           ZTE_RRC_STATE_REQ,
+	zte_rrc_state_resp_msg          ZTE_RRC_STATE_RESP,
+	zte_rrc_state_ind_msg           ZTE_RRC_STATE_IND;
+	//! @ID QMI_MAC
+	efs_req_msg                   EFS_PING_REQ,
+	efs_resp_msg                  EFS_PING_RESP,
+	efs_ind_msg                   EFS_PING_IND;	
+
+       //! @ID QMI_PSY_STATE
+	zte_psy_state_req_msg           ZTE_PSY_STATE_REQ,
+	zte_psy_state_resp_msg          ZTE_PSY_STATE_RESP,
+	zte_psy_state_ind_msg           ZTE_PSY_STATE_IND;
+	
+	//! @ID QMI_POWER_OFF
+	power_off_req_msg                    POWER_OFF_REQ,
+	power_off_resp_msg                   POWER_OFF_RESP,
+	power_off_ind_msg                    POWER_OFF_IND;
+
+	//! @ID QMI_Q6_DATA
+	zte_Q6_data_req_msg      ZTE_Q6_DATA_REQ,
+	zte_Q6_data_resp_msg     ZTE_Q6_DATA_RESP,
+	zte_Q6_data_ind_msg       ZTE_Q6_DATA_IND;
+
+	//! @ID QMI_WAN_COMMON
+	zte_wan_common_qmi_req_msg    ZTE_WAN_COMMON_QMI_REQ,
+	zte_wan_common_qmi_resp_msg  ZTE_WAN_COMMON_QMI_RESP,
+	zte_wan_common_qmi_ind_msg    ZTE_WAN_COMMON_QMI_IND;
+
+	//! @ID QMI_WAN_COMMON
+	zte_wan_common_qmi2_req_msg    ZTE_WAN_COMMON_QMI2_REQ,
+	zte_wan_common_qmi2_resp_msg  ZTE_WAN_COMMON_QMI2_RESP,
+	zte_wan_common_qmi2_ind_msg    ZTE_WAN_COMMON_QMI2_IND;
+
+	//! @ID QMI_PPP_COMMON
+	zte_ppp_common_qmi_req_msg    ZTE_PPP_COMMON_QMI_REQ,
+	zte_ppp_common_qmi_resp_msg  ZTE_PPP_COMMON_QMI_RESP,
+	zte_ppp_common_qmi_ind_msg    ZTE_PPP_COMMON_QMI_IND;
+	//! @ID QMI_DIAG_COMMON
+	zte_diag_common_qmi_req_msg    ZTE_DIAG_COMMON_QMI_REQ,
+	zte_diag_common_qmi_resp_msg  ZTE_DIAG_COMMON_QMI_RESP,
+	zte_diag_common_qmi_ind_msg    ZTE_DIAG_COMMON_QMI_IND;
+
+	//!@ID QMI_Read_Inner_Version_Number by suhao
+	zte_read_inner_version_number_req_msg        ZTE_READ_INNER_VERSION_NUMBER_REQ,
+	zte_read_inner_version_number_resp_msg       ZTE_READ_INNER_VERSION_NUMBER_RESP,
+	zte_read_inner_version_number_ind_msg        ZTE_READ_INNER_VERSION_NUMBER_IND;
+
+	//! @ID QMI_WLAN_COMMON  Added by menbo for zte_wlan_common_qmi 20140701
+	zte_wlan_common_qmi_req_msg    ZTE_WLAN_COMMON_QMI_REQ,
+	zte_wlan_common_qmi_resp_msg   ZTE_WLAN_COMMON_QMI_RESP,
+	zte_wlan_common_qmi_ind_msg    ZTE_WLAN_COMMON_QMI_IND;
+		
+	//! @ID QMI_USB_FILE_CTL
+	zte_usb_file_ctl_req_msg          ZTE_USB_FILE_CTL_REQ_MSG,
+	zte_usb_file_ctl_resp_msg         ZTE_USB_FILE_CTL_RESP_MSG,
+	zte_usb_file_ctl_ind_msg	      ZTE_USB_FILE_CTL_IND_MSG;
+	
+    //! @ID QMI_CFG_COMMON
+    zte_cfg_qmi_req_msg		ZTE_CFG_COMMON_QMI_REQ,
+    zte_cfg_qmi_resp_msg	ZTE_CFG_COMMON_QMI_RESP,
+    zte_cfg_qmi_ind_msg		ZTE_CFG_COMMON_QMI_IND;
+
+	//! @ID QMI_BLUETOOTH_MAC
+	zte_bluetooth_mac_req_msg                    ZTE_BLUETOOTH_MAC_REQ,
+	zte_bluetooth_mac_resp_msg                   ZTE_BLUETOOTH_MAC_RESP,
+	zte_bluetooth_mac_ind_msg                    ZTE_BLUETOOTH_MAC_IND;
+
+		//! @ID QMI_ZTE_MDM
+	zte_mdm_req_msg                    ZTE_MDM_QMI_REQ,
+	zte_mdm_resp_msg                   ZTE_MDM_QMI_RESP,
+	zte_mdm_ind_msg                    ZTE_MDM_QMI_IND;
+	
+    //! @ID  ZTE_MDM_THERMAL_CONFIG_SE
+	zte_mdm_thermal_config_set_req_msg  ZTE_MDM_THERMAL_CONFIG_SET_REQ,
+	zte_mdm_thermal_config_set_resp_msg ZTE_MDM_THERMAL_CONFIG_SET_RESP,
+	zte_mdm_thermal_config_set_ind_msg   ZTE_MDM_THERMAL_CONFIG_SET_IND;
+	
+//! @ID ZTE_MDM_THERMAL_CONFIG_GET
+	zte_mdm_thermal_config_get_req_msg  ZTE_MDM_THERMAL_CONFIG_GET_REQ,
+	zte_mdm_thermal_config_get_resp_msg  ZTE_MDM_THERMAL_CONFIG_GET_RESP,
+	zte_mdm_thermal_config_get_ind_msg  ZTE_MDM_THERMAL_CONFIG_GET_IND;
+	
+} = 0x100;

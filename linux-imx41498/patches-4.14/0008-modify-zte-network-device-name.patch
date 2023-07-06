@@ -1,0 +1,28 @@
+diff --git a/drivers/net/usb/usbnet.c b/drivers/net/usb/usbnet.c
+old mode 100644
+new mode 100755
+index 32fc695..b7e98e5
+--- a/drivers/net/usb/usbnet.c
++++ b/drivers/net/usb/usbnet.c
+@@ -1653,6 +1653,7 @@ usbnet_probe (struct usb_interface *udev, const struct usb_device_id *prod)
+ 	int				status;
+ 	const char			*name;
+ 	struct usb_driver 	*driver = to_usb_driver(udev->dev.driver);
++	struct usb_device   *usbdev = interface_to_usbdev(udev);
+ 
+ 	/* usbnet already took usb runtime pm, so have to enable the feature
+ 	 * for usb interface, otherwise usb_autopm_get_interface may return
+@@ -1745,6 +1746,13 @@ usbnet_probe (struct usb_interface *udev, const struct usb_device_id *prod)
+ 		/* WWAN devices should always be named "wwan%d" */
+ 		if ((dev->driver_info->flags & FLAG_WWAN) != 0)
+ 			strcpy(net->name, "wwan%d");
++		/* Modify ZTE devices name*/
++		if (((dev->driver_info->flags & FLAG_WWAN) != 0) && usbdev->descriptor.idVendor == 0x19d2)			
++			strcpy(net->name, "zte_4g_usb%d");
++		if (((dev->driver_info->flags & FLAG_FRAMING_RN) != 0) && usbdev->descriptor.idVendor == 0x19d2)			
++			strcpy(net->name, "rndis%d");
++		if (((dev->driver_info->flags & FLAG_FRAMING_RN) != 0) && usbdev->descriptor.idVendor == 0x19d2 && usbdev->descriptor.idProduct == 0x1498)			
++			strcpy(net->name, "zte_v2x_usb%d");
+ 
+ 		/* devices that cannot do ARP */
+ 		if ((dev->driver_info->flags & FLAG_NOARP) != 0)
